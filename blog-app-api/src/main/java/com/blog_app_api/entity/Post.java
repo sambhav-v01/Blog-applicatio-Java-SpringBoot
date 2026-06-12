@@ -23,8 +23,7 @@ public class Post {
 
    private String postDescription;
 
-   private String imageName;
-
+//   private String imageName;
    private Date addDate;
 
    @ManyToOne

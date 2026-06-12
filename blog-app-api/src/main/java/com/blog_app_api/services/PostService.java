@@ -8,10 +8,10 @@ import java.util.List;
 public interface PostService {
 
     //create Service
-    Post createPost (PostDTO postDTO);
+    PostDTO createPost (PostDTO postDTO, Integer userId, Integer categoryId);
 
     // update Service
-    Post updatePost(PostDTO postDTO, Integer PostId);
+    PostDTO updatePost(PostDTO postDTO, Integer PostId);
 
 
     //delete Srvice
@@ -21,7 +21,8 @@ public interface PostService {
     List<Post> getAllPost();
 
     //getPostById
-    Post getPostById(Integer postId);
+    PostDTO
+    getPostById(Integer postId);
 
     //getAll post By Category Serrvice
     List<Post> getPostByCategory(Integer categoryId);
@@ -32,7 +33,7 @@ public interface PostService {
 
 
     //getpostBySearch
-    List<Pos>
+    List<Post> SearchPost(String keyWord);
 
 
 }
