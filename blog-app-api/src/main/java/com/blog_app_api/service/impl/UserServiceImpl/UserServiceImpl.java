@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO createUserData(UserDTO user) {
         User User = this.dtoToUser(user);
         User savedUser= this.UserRepo.save(User);
+
         return this.userToDto(savedUser);
     }
 
