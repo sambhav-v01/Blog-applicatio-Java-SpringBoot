@@ -2,6 +2,9 @@ package com.blog_app_api.services;
 
 import com.blog_app_api.entity.Post;
 import com.blog_app_api.payload.PostDTO;
+import com.blog_app_api.payload.PostPaginationResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -17,8 +20,13 @@ public interface PostService {
     //delete Srvice
     void deletePost(Integer postId);
 
-    //getAllPost Service
-    List<PostDTO> getAllPost();
+    //getAllPost Service using pagnation with custom Method
+    PostPaginationResponse getAllPost(Integer pageNumber , Integer pageSize);
+
+
+   //getAllPost using pagination by use PageInterface
+    //Page<PostDTO> getAllPost(Pageable pageable);
+
 
     //getPostById
     PostDTO

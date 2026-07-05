@@ -3,8 +3,11 @@ package com.blog_app_api.controller;
 import com.blog_app_api.entity.Category;
 import com.blog_app_api.entity.User;
 import com.blog_app_api.payload.PostDTO;
+import com.blog_app_api.payload.PostPaginationResponse;
 import com.blog_app_api.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,12 +42,20 @@ public class PostController {
         return new ResponseEntity<List<PostDTO>>(listOfpots, HttpStatus.OK);
     }
 
-    //get all post
+    //get all post by pagination by customResponse DTO
     @GetMapping("/posts")
-    public ResponseEntity<List<PostDTO>> getAllPost(){
-       List<PostDTO> allPost= postService.getAllPost();
-      return new ResponseEntity<List<PostDTO>>(allPost, HttpStatus.OK);
+    public ResponseEntity<PostPaginationResponse> getAllPost(@RequestParam (required = false) Integer pageNumber, @RequestParam (required = false) Integer pageSize){
+       PostPaginationResponse allPost= postService.getAllPost(pageNumber, pageSize);
+      return new ResponseEntity<PostPaginationResponse>(allPost, HttpStatus.OK);
     }
+
+
+     // get all post by pagination by page inteface
+//    @GetMapping("/posts")
+//    public ResponseEntity<Page<PostDTO>> getAllPost(Pageable pageable) {
+//
+//        return ResponseEntity.ok(postService.getAllPost(pageable));
+//    }
 
 
 

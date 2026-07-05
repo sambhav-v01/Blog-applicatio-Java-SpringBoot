@@ -8,9 +8,13 @@ import com.blog_app_api.entity.Post;
 import com.blog_app_api.entity.User;
 import com.blog_app_api.exceptions.ResourceNotFoundException;
 import com.blog_app_api.payload.PostDTO;
+import com.blog_app_api.payload.PostPaginationResponse;
 import com.blog_app_api.services.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -60,12 +64,32 @@ public class PostServiceImpl implements PostService {
          postRepository.delete(post);
     }
 
+    //get all post by pagination by custom response
     @Override
-    public List<PostDTO> getAllPost() {
-        List<Post> allpostList= postRepository.findAll();
-        List<PostDTO> allpostDtoList=allpostList.stream().map(post->postToPostDTO(post)).collect(Collectors.toList());
-        return allpostDtoList;
+    public PostPaginationResponse getAllPost(Integer pageNumber, Integer pageSize) {
+        Pageable p= PageRequest.of(pageNumber, pageSize);
+       Page <Post> pagePost  = postRepository.findAll(p);
+       List<Post>allpostList= pagePost.getContent();
+       List<PostDTO> allpostDtoList=allpostList.stream().map(post->postToPostDTO(post)).collect(Collectors.toList());
+        PostPaginationResponse  response=new PostPaginationResponse();
+        response.setContent(allpostDtoList);
+        response.setPageNumber(pagePost.getNumber());
+        response.setPageSize(pagePost.getSize());
+        response.setTotalElement(pagePost.getNumberOfElements());
+        response.setTotalPages(pagePost.getTotalPages());
+        response.setLastPage(pagePost.isLast());
+
+        return response;
     }
+
+    //get all post by paginatio by use PageInterface
+//    @Override
+//    public Page<PostDTO> getAllPost(Pageable pageable) {
+//
+//        Page<Post> posts = postRepository.findAll(pageable);
+//
+//        return posts.map(this::postToPostDTO);
+//    }
 
     @Override
     public PostDTO getPostById(Integer postId) {
