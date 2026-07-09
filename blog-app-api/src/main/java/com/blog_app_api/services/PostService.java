@@ -21,7 +21,7 @@ public interface PostService {
     void deletePost(Integer postId);
 
     //getAllPost Service using pagnation with custom Method
-    PostPaginationResponse getAllPost(Integer pageNumber , Integer pageSize);
+    PostPaginationResponse getAllPost(Integer pageNumber , Integer pageSize, String sortBy);
 
 
    //getAllPost using pagination by use PageInterface

@@ -44,8 +44,8 @@ public class PostController {
 
     //get all post by pagination by customResponse DTO
     @GetMapping("/posts")
-    public ResponseEntity<PostPaginationResponse> getAllPost(@RequestParam (required = false) Integer pageNumber, @RequestParam (required = false) Integer pageSize){
-       PostPaginationResponse allPost= postService.getAllPost(pageNumber, pageSize);
+    public ResponseEntity<PostPaginationResponse> getAllPost(@RequestParam (required = false) Integer pageNumber, @RequestParam (required = false) Integer pageSize, @RequestParam (required = false) String sortBy ){
+       PostPaginationResponse allPost= postService.getAllPost(pageNumber, pageSize, sortBy);
       return new ResponseEntity<PostPaginationResponse>(allPost, HttpStatus.OK);
     }
 
@@ -56,6 +56,14 @@ public class PostController {
 //
 //        return ResponseEntity.ok(postService.getAllPost(pageable));
 //    }
+
+
+    //get post by keyWord
+    @GetMapping("posts/search/{keyWord}")
+    public ResponseEntity<List<PostDTO>> getPostBySearch(@PathVariable String keyWord){
+        List<PostDTO> searchedPost= postService.SearchPost(keyWord);
+        return  new ResponseEntity<List<PostDTO>>(searchedPost,HttpStatus.OK);
+    }
 
 
 

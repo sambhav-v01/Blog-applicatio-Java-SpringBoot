@@ -16,6 +16,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class PostDTO {
 
+    private Integer postId;
+
     private String postTitle;
 
     private String postDescription;

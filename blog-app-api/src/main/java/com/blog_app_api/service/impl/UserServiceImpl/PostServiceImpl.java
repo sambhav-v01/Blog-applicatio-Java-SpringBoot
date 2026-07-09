@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -54,7 +55,6 @@ public class PostServiceImpl implements PostService {
        post.setPostTitle(postDTO.getPostTitle());
        post.setPostDescription(postDTO.getPostDescription());
        Post post1 = postRepository.save(post);
-
       return  postToPostDTO(post1);
     }
 
@@ -66,8 +66,9 @@ public class PostServiceImpl implements PostService {
 
     //get all post by pagination by custom response
     @Override
-    public PostPaginationResponse getAllPost(Integer pageNumber, Integer pageSize) {
-        Pageable p= PageRequest.of(pageNumber, pageSize);
+    public PostPaginationResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy) {
+        Pageable p= PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+
        Page <Post> pagePost  = postRepository.findAll(p);
        List<Post>allpostList= pagePost.getContent();
        List<PostDTO> allpostDtoList=allpostList.stream().map(post->postToPostDTO(post)).collect(Collectors.toList());
@@ -115,7 +116,9 @@ public class PostServiceImpl implements PostService {
 
 
     public List<PostDTO> SearchPost(String keyword) {
-        return List.of();
+        List<Post> searchPosts=postRepository.findByPostTitleContaining(keyword);
+       List<PostDTO> posts= searchPosts.stream().map(this :: postToPostDTO).collect(Collectors.toList()); // by use methos ref insted of lamda
+       return  posts;
     }
 
 
