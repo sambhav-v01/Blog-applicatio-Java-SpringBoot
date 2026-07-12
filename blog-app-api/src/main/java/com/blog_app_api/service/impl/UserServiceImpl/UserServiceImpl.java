@@ -8,17 +8,22 @@ import com.blog_app_api.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository UserRepo;
+    private final UserRepository UserRepo;
+    private final ModelMapper modalMapper;
 
-    @Autowired
-    private ModelMapper modalMapper;
+    public UserServiceImpl(UserRepository UserRepo,
+                           ModelMapper modalMapper) {
+        this.UserRepo = UserRepo;
+        this.modalMapper = modalMapper;
+    }
 
     @Override
     public UserDTO getUserById(int userId) {

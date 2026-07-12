@@ -14,14 +14,16 @@ import java.util.Map;
 @RequestMapping("/api/users")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
     UserController (UserService userService){
         this.userService=userService;
     }
     @PostMapping("/")
     public ResponseEntity<UserDTO> createuser(@Valid @RequestBody UserDTO userDto){
       UserDTO createduser=  userService.createUserData(userDto);
-      return new ResponseEntity<>(createduser, HttpStatus.CREATED);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(createduser);
     }
 
     @PutMapping("/{id}")

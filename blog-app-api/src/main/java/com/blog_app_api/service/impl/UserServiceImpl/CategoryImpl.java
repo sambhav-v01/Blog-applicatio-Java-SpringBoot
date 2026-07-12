@@ -8,19 +8,28 @@ import com.blog_app_api.services.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class CategoryImpl implements CategoryService {
 
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+
+    private final CategoryRepository categoryRepository;
+
+
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
+    CategoryImpl(CategoryRepository categoryRepository, ModelMapper modelMapper){
+        this.categoryRepository=categoryRepository;
+        this.modelMapper=modelMapper;
+    }
+
 
     //for getting all user
     @Override
@@ -61,12 +70,12 @@ public class CategoryImpl implements CategoryService {
         categoryRepository.delete(categoryData);
     }
 
-   public  Category  categorDTOtoCategory( CategoryDTO categoryDto){
+   private   Category  categorDTOtoCategory( CategoryDTO categoryDto){
        Category categoryData = this.modelMapper.map(categoryDto, Category.class);
         return categoryData;
    }
 
-   public CategoryDTO categoryToCategoryDTO (Category category){
+   private   CategoryDTO categoryToCategoryDTO (Category category){
         CategoryDTO categoryDTOData= this.modelMapper.map(category,CategoryDTO.class);
         return categoryDTOData;
    }

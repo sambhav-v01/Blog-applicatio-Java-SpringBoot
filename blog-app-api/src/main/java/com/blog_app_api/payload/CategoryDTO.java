@@ -17,11 +17,11 @@ public class CategoryDTO {
 
 
     @NotBlank(message = "Title can not be empty")
-    @Size(min=4, message = "Title shoulb be atleast 4 Char")
+    @Size(min=4,max=50, message = "Title shoulb be atleast 4 Char")
     private String categoryTitle;
 
     @NotBlank
-    @Size(message = "Description can not be empty")
+    @Size(min = 10, max = 200, message = "Description can not be empty")
     private String categoryDescription;
 
 }

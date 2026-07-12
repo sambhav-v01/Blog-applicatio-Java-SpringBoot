@@ -5,6 +5,7 @@ import com.blog_app_api.entity.User;
 import com.blog_app_api.payload.PostDTO;
 import com.blog_app_api.payload.PostPaginationResponse;
 import com.blog_app_api.services.PostService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,12 +19,16 @@ import java.util.List;
 @RequestMapping("/api/")
 public class PostController {
 
+
+    private final PostService postService;
     @Autowired
-    PostService postService;
+    PostController(PostService postService){
+        this.postService=postService;
+    }
 
     // creating a post
     @PostMapping("/users/{userId}/categories/{categoryId}/posts")
-    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO, @PathVariable Integer userId,@PathVariable Integer categoryId){
+    public ResponseEntity<PostDTO> createPost(@Valid @RequestBody PostDTO postDTO, @PathVariable Integer userId, @PathVariable Integer categoryId){
       PostDTO createdPostDTO= postService.createPost(postDTO,userId,categoryId);
        return new ResponseEntity<PostDTO>(createdPostDTO, HttpStatus.CREATED);
     }
@@ -83,7 +88,7 @@ public class PostController {
     }
 
     @PutMapping("posts/{postId}")
-    public ResponseEntity<PostDTO> updatedPost(@RequestBody PostDTO postDTO ,@PathVariable Integer postId){
+    public ResponseEntity<PostDTO> updatedPost(@Valid @RequestBody PostDTO postDTO ,@PathVariable Integer postId){
        PostDTO postDto= postService.updatePost(postDTO, postId);
        return new ResponseEntity<PostDTO>(postDto,HttpStatus.OK);
     }

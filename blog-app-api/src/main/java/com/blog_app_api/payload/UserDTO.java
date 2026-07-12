@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -30,4 +32,5 @@ public class UserDTO {
     @NotBlank
     @Size(max=200 , message = "Your Info not max reach 200 Words")
     private String about;
+
 }

@@ -17,12 +17,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class PostServiceImpl implements PostService {
 
    @Autowired
@@ -76,7 +78,7 @@ public class PostServiceImpl implements PostService {
         response.setContent(allpostDtoList);
         response.setPageNumber(pagePost.getNumber());
         response.setPageSize(pagePost.getSize());
-        response.setTotalElement(pagePost.getNumberOfElements());
+        response.setTotalElement(pagePost.getTotalElements());
         response.setTotalPages(pagePost.getTotalPages());
         response.setLastPage(pagePost.isLast());
 
